@@ -12,6 +12,8 @@
 
 @interface EXPExpectFBSnapshotTest()
 @property (nonatomic, strong) NSString *referenceImagesDirectory;
+@property BOOL forceRecording;
+
 @end
 
 @implementation EXPExpectFBSnapshotTest
@@ -30,11 +32,16 @@
 
 {
     FBSnapshotTestController *snapshotController = [[FBSnapshotTestController alloc] initWithTestClass:[testCase class]];
-    snapshotController.recordMode = record;
+    snapshotController.recordMode = record || ((EXPExpectFBSnapshotTest *)[EXPExpectFBSnapshotTest instance]).forceRecording;
     snapshotController.referenceImagesDirectory = referenceDirectory;
 
     if (! snapshotController.referenceImagesDirectory) {
         [NSException raise:@"Missing value for referenceImagesDirectory" format:@"Call [[EXPExpectFBSnapshotTest instance] setReferenceImagesDirectory"];
+    }
+    UIImage *referenceImage = [snapshotController referenceImageForSelector:NSSelectorFromString(snapshot) identifier:nil error:error];
+    if (!referenceImage) {
+        NSLog(@"Missing reference image.  Turning on record");
+        snapshotController.recordMode = YES;
     }
 
     return [snapshotController compareSnapshotOfViewOrLayer:viewOrLayer
@@ -65,6 +72,10 @@ void setGlobalReferenceImageDir(char *reference) {
     NSString *referenceImagesDirectory = [NSString stringWithFormat:@"%s", reference];
     [[EXPExpectFBSnapshotTest instance] setReferenceImagesDirectory:referenceImagesDirectory];
 };
+
+void setForceRecording(BOOL forceRecording) {
+    ((EXPExpectFBSnapshotTest *)[EXPExpectFBSnapshotTest instance]).forceRecording = forceRecording;
+}
 
 @interface EXPExpect(ReferenceDirExtension)
 - (NSString *)_getDefaultReferenceDirectory;

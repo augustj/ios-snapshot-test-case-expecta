@@ -13,6 +13,8 @@
 
 /// Set the default folder for image tests to run in
 extern void setGlobalReferenceImageDir(char *reference);
+/// All force recording
+extern void setForceRecording(BOOL forceRecording);
 
 EXPMatcherInterface(haveValidSnapshot, (void));
 EXPMatcherInterface(recordSnapshot, (void));

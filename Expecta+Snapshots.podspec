@@ -6,11 +6,11 @@ Pod::Spec.new do |s|
   s.homepage     = 'https://github.com/dblock/ios-snapshot-test-case-expecta'
   s.license      = 'MIT'
   s.author       = { 'Daniel Doubrovkine' => "dblock@dblock.org", "orta" => "orta.therox@gmail.com" }
-  s.source       = { :git => 'https://github.com/dblock/ios-snapshot-test-case-expecta.git', :tag => s.version.to_s }
+  s.source       = { :git => 'git@github.com:augustj/ios-snapshot-test-case-expecta.git'}
   s.platform     = :ios, '6.0'
   s.requires_arc = true
   s.source_files = 'EXPMatchers+FBSnapshotTest.{h,m}'
   s.frameworks   = 'Foundation', 'XCTest'
-  s.dependency	 	 'FBSnapshotTestCase', '1.6'
-  s.dependency	 	 'Expecta', '~> 0.3'
+  s.dependency     'FBSnapshotTestCase', '1.6'
+  s.dependency     'Expecta', '~> 0.3'
 end
